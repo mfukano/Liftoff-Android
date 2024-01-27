@@ -3,9 +3,12 @@ package com.example.myapplication
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -28,8 +31,7 @@ import com.example.myapplication.databinding.ActivityMainBinding
 // Vungle Imports
 import com.vungle.ads.*
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BaseAdListener {
     // Sets up keys for logging and initialization
     companion object {
         const val APP_KEY = "65b42d54aad06991469bd314"
@@ -43,6 +45,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rewardedFragment: RewardedVideoFragment
     private lateinit var bannerFragment: BannerFragment
     private lateinit var nativeFragment: NativeFragment
+
+
+    private var bannerAd: BannerAd? = null
+
+    private var bannerPlacementId = "BANNER_TEST-0796908"
+    private var MRECPlacementId = "MREC_TEST-7003332"
+    private var bannerAdContainer: RelativeLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,16 +101,16 @@ class MainActivity : AppCompatActivity() {
             rewardedFragment.playRewardedVideo()
         }
         binding.loadBn.setOnClickListener {
-            bannerFragment.loadBanner()
+            loadBanner()
         }
         binding.showBn.setOnClickListener {
-            bannerFragment.playBanner()
+            playBanner()
         }
         binding.loadMrec.setOnClickListener {
-            bannerFragment.loadMREC()
+            loadMREC()
         }
         binding.showMrec.setOnClickListener{
-            bannerFragment.playMREC()
+            playMREC()
         }
         binding.loadNative.setOnClickListener {
             Log.d(TAG, "Clicked load native ad button")
@@ -111,5 +120,89 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "Clicked play native ad button")
 //            nativeFragment.showNativeAd()
         }
+        bannerAdContainer = binding.bannerAdContainer
+    }
+
+    fun loadMREC() {
+        bannerAd = BannerAd(applicationContext, MRECPlacementId, BannerAdSize.VUNGLE_MREC)
+            .apply {
+                adListener = this@MainActivity
+                load()
+            }
+    }
+
+    fun playMREC() {
+        Log.d(MainActivity.TAG, "In playBanner")
+
+        val bannerView: BannerView? = bannerAd?.getBannerView()
+        val params = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.CENTER_HORIZONTAL
+        )
+        bannerAdContainer?.addView(bannerView, params)
+    }
+
+    fun loadBanner() {
+        bannerAd = BannerAd(applicationContext, bannerPlacementId, BannerAdSize.BANNER)
+            .apply {
+                adListener = this@MainActivity
+                load()
+            }
+    }
+
+    fun playBanner() {
+        Log.d(TAG, "In playBanner")
+
+        val bannerView: BannerView? = bannerAd?.getBannerView()
+        val params = FrameLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.CENTER_HORIZONTAL
+        )
+        if (bannerAd?.canPlayAd() == true)
+            bannerAdContainer?.addView(bannerView, params)
+    }
+
+    override fun onAdLoaded(baseAd: BaseAd) {
+        Log.d(TAG, "Creative id:" + baseAd.creativeId)
+    }
+
+    override fun onAdStart(baseAd: BaseAd) {
+        Log.d(TAG, "Ad has started {onAdStart}")
+    }
+
+    override fun onAdImpression(baseAd: BaseAd) {
+        Log.d(TAG, "Ad logged impression {onAdImpression}")
+    }
+
+    override fun onAdEnd(baseAd: BaseAd) {
+        // In test, it seems like this is never called
+        Log.d(TAG, "Ad has ended {onAdEnd}")
+        bannerAdContainer?.removeAllViews()
+        bannerAd?.finishAd()
+        bannerAd = null
+    }
+
+
+    override fun onAdClicked(baseAd: BaseAd) {
+        Log.d(TAG, "Ad was clicked {onAdClicked}")
+
+        // Workaround to close the ad; click on it to open and then swipe back to the application
+        bannerAdContainer?.removeAllViews()
+        bannerAd?.finishAd()
+        bannerAd = null
+    }
+
+    override fun onAdLeftApplication(baseAd: BaseAd) {
+        Log.d(TAG, "Ad routed user out of application {onAdLeftApplication}")
+    }
+
+    override fun onAdFailedToLoad(baseAd: BaseAd, adError: VungleError) {
+        Log.d(TAG, "Ad failed to load {onAdFailedToLoad}")
+    }
+
+    override fun onAdFailedToPlay(baseAd: BaseAd, adError: VungleError) {
+        Log.d(TAG, "Ad failed to play {onAdFailedToPlay}")
     }
 }

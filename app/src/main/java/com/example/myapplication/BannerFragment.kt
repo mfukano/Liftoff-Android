@@ -19,7 +19,6 @@ import com.vungle.ads.BaseAdListener
 import com.vungle.ads.VungleError
 
 class BannerFragment : Fragment(R.layout.activity_main), BaseAdListener {
-
     companion object {
         fun newInstance() = BannerFragment()
     }
@@ -47,7 +46,7 @@ class BannerFragment : Fragment(R.layout.activity_main), BaseAdListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[FullScreenViewModel::class.java]
+//        viewModel = ViewModelProvider(this)[FullScreenViewModel::class.java]
         // TODO: Use the ViewModel
     }
 
@@ -106,7 +105,6 @@ class BannerFragment : Fragment(R.layout.activity_main), BaseAdListener {
         Log.d(MainActivity.TAG, "Ad has started {onAdStart}")
     }
 
-
     override fun onAdImpression(baseAd: BaseAd) {
         Log.d(MainActivity.TAG, "Ad logged impression {onAdImpression}")
     }
@@ -116,7 +114,7 @@ class BannerFragment : Fragment(R.layout.activity_main), BaseAdListener {
         Log.d(MainActivity.TAG, "Ad has ended {onAdEnd}")
         bannerAdContainer?.removeAllViews()
         bannerAd?.finishAd()
-        bannerAd?.setAdListener(null)
+//        bannerAd?.setAdListener(null)
         bannerAd = null
     }
 
