@@ -1,0 +1,15 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/InterstitialFragment">
+
+    <fragment
+        android:id="@+id/InterstitialFragment"
+        android:name="com.example.myapplication.InterstitialFragment"
+        android:label="InterstitialFragment">
+
+        <!-- Action to navigate from Profile to Friends List. -->
+    </fragment>
+
+    <!-- Add other fragment destinations similarly. -->
+</navigation>
