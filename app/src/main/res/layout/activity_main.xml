@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -156,14 +156,14 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
-            android:id="@+id/show_native"
+            android:id="@+id/close_banner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="241dp"
             android:layout_marginTop="280dp"
             android:layout_marginEnd="54dp"
             android:layout_marginBottom="306dp"
-            android:text="Show Native"
+            android:text="Close Banner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -181,9 +181,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
-
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:id="@+id/nativeAdContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"></LinearLayout>
 </LinearLayout>

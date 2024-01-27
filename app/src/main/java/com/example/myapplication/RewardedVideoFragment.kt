@@ -65,6 +65,10 @@ class RewardedVideoFragment : Fragment(R.layout.fragment_rewarded_video), BaseAd
         }
     }
 
+    fun rewardedReady(): Boolean {
+        return rewardedAd?.canPlayAd() == true
+    }
+
     override fun onAdLoaded(baseAd: BaseAd) {
         Log.d(MainActivity.TAG, "Creative id:" + baseAd.creativeId)
     }

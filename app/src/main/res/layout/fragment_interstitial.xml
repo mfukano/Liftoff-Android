@@ -13,5 +13,7 @@
     android:name="com.example.myapplication.InterstitialFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InterstitialFragment" />
+    tools:context=".InterstitialFragment">
+
+</androidx.fragment.app.FragmentContainerView>
 <!--</FrameLayout>-->

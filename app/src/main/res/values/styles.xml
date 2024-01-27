@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Widget.Theme.AppCompat.Light.ButtonBar.Fullscreen" parent="">
         <item name="android:background">@color/black_overlay</item>

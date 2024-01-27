@@ -65,6 +65,10 @@ class InterstitialFragment : Fragment(R.layout.fragment_interstitial), BaseAdLis
         }
     }
 
+    fun interstitialReady(): Boolean {
+        return interstitialAd?.canPlayAd() == true
+    }
+
     override fun onAdLoaded(baseAd: BaseAd) {
         Log.d(MainActivity.TAG, "Creative id:" + baseAd.creativeId)
     }
